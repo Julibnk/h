@@ -3,6 +3,7 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
+import { PrismaClient } from '@prisma/client';
 import fastify, { RouteShorthandOptions } from 'fastify';
 import { env } from './env.js';
 import { getRequestLogger } from './logger.js';
@@ -127,13 +128,19 @@ const opts: RouteShorthandOptions = {
     // ],
   },
 };
-
+const prisma = new PrismaClient();
 server.register((server, _opts, done) => {
   server.get('/api/healthcheck', async () => {
     return { ok: true };
   });
 
   server.post('/api/echo', {}, async (request, res) => {
+    res.status(201);
+    return request.body;
+  });
+
+  server.post('/api/post', {}, async (request, res) => {
+    prisma.user.create({ data: { name: 'Heloworld' } });
     res.status(201);
     return request.body;
   });

@@ -14,6 +14,8 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
+RUN npx prisma generate
+
 # NOTE: Local development image 
 
 FROM api-base as api-dev

@@ -23,7 +23,11 @@
     "jest": "jest",
     "prettier:test": "prettier --check \"**/*.{ts,tsx}\"",
     "prettier:write": "prettier --write \"**/*.{ts,tsx}\"",
-    "test": "npm run prettier:test && npm run typecheck && npm run lint"
+    "test": "npm run prettier:test && npm run typecheck && npm run lint",
+    "prisma:generate": "prisma generate"
+  },
+  "prisma": {
+    "schema": "./data/prisma/schema/main.prisma"
   },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
@@ -58,7 +62,7 @@
     "@fastify/helmet": "^12.0.1",
     "@fastify/swagger": "^9.2.0",
     "@fastify/swagger-ui": "^5.1.0",
-    "@prisma/client": "^5.21.1",
+    "@prisma/client": "^5.22.0",
     "dotenv": "^16.4.5",
     "fastify": "^5.0.0",
     "pino": "^9.2.0",
