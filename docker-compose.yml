@@ -3,28 +3,39 @@ services:
   api:
     build:
       context: ./api
-      target: api
-    # image: node:lts # You can replace with specific node version you prefer
-    # working_dir: /usr/src/app
-    volumes:
-      - ./api/:/usr/src/app # Mounts your local app folder to the container
-      - /usr/src/app/node_modules # Ensures node_modules persist inside the container
+      target: api-dev
+    develop:
+      watch:
+        - path: ./api
+          action: sync
+          target: /usr/local/app
+          ignore:
+            - node_modules/
+        - path: ./api/package.json
+          action: rebuild
+    # volumes:
+    # - ./api/:/usr/src/app # Mounts your local app folder to the container
+    # - /usr/src/app/node_modules # Ensures node_modules persist inside the container
     ports:
       - "4512:4512" # Expose the Fastify app on localhost:3000
-    # command: sh -c "npm install && npm run dev" # Adjust command as needed (e.g., npm start)
     env_file: ./api/.env
-    # depends_on:
-    # - db
+    depends_on:
+      - db
 
-  # db:
-  #   env_file: ./data/.env
-  #   image: postgres:latest # Use the PostgreSQL version you prefer
-  #   environment:
-  #     - POSTGRES_USER=${POSTGRES_USER}
-  #     - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-  #     - POSTGRES_DB=${POSTGRES_DB}
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data # Persist database data
-  #
-# volumes:
-# postgres_data:
+  db:
+    build:
+      context: ./data
+    env_file: ./data/.env
+    image: postgres:latest # Use the PostgreSQL version you prefer
+    ports:
+      - "5432:5432" # Expose the Fastify app on localhost:3000
+
+    # environment:
+    #   - POSTGRES_USER=${POSTGRES_USER}
+    #   - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+    #   - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data # Persist database data
+
+volumes:
+  postgres_data:
