@@ -293,9 +293,6 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@esbuild/darwin-arm64@0.21.5":
-  version "0.21.5"
-
 "@eslint-community/eslint-utils@^4.2.0", "@eslint-community/eslint-utils@^4.4.0":
   version "4.4.0"
   dependencies:
@@ -724,9 +721,6 @@
     "@types/estree" "^1.0.0"
     estree-walker "^2.0.2"
     picomatch "^2.3.1"
-
-"@rollup/rollup-darwin-arm64@4.18.0":
-  version "4.18.0"
 
 "@sinclair/typebox@^0.27.8":
   version "0.27.8"
@@ -1623,9 +1617,6 @@ forwarded@0.2.0:
 
 fs.realpath@^1.0.0:
   version "1.0.0"
-
-fsevents@^2.3.2, fsevents@~2.3.2, fsevents@~2.3.3:
-  version "2.3.3"
 
 function-bind@^1.1.2:
   version "1.1.2"

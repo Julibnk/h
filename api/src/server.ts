@@ -133,7 +133,7 @@ server.register((server, _opts, done) => {
     return { ok: true };
   });
 
-  server.post('/api/echo', opts, async (request, res) => {
+  server.post('/api/echo', {}, async (request, res) => {
     res.status(201);
     return request.body;
   });
