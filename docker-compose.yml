@@ -4,6 +4,7 @@ services:
     build:
       context: ./api
       target: api-dev
+    env_file: ./api/.env
     develop:
       watch:
         - path: ./api
@@ -11,21 +12,26 @@ services:
           target: /usr/local/app
           ignore:
             - node_modules/
+
         - path: ./api/package.json
           action: rebuild
+
+        # If the schema changes must rebuild the container for type update
+        - path: ./api/data/prisma
+          action: rebuild
+
     # volumes:
-    # - ./api/:/usr/src/app # Mounts your local app folder to the container
+    #   - ./api/:/usr/src/app # Mounts your local app folder to the container
     # - /usr/src/app/node_modules # Ensures node_modules persist inside the container
     ports:
       - "4512:4512" # Expose the Fastify app on localhost:3000
-    env_file: ./api/.env
     depends_on:
       - db
 
   db:
     build:
-      context: ./data
-    env_file: ./data/.env
+      context: ./api/data
+    env_file: ./api/data/.env
     image: postgres:latest # Use the PostgreSQL version you prefer
     ports:
       - "5432:5432" # Expose the Fastify app on localhost:3000
