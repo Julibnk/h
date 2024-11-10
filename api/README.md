@@ -37,3 +37,8 @@ A basic fastify server template with TypeScript, ESM, ESLint and Prettier. Node.
 ## License
 
 MIT
+
+## Prisma
+
+- `db push` For prototype quickly the database
+- `prisma migrate` For generate the migration

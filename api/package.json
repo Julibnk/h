@@ -26,9 +26,6 @@
     "test": "npm run prettier:test && npm run typecheck && npm run lint",
     "prisma:generate": "prisma generate"
   },
-  "prisma": {
-    "schema": "./data/prisma/schema/main.prisma"
-  },
   "optionalDependencies": {
     "@rollup/rollup-linux-x64-gnu": "4.9.5"
   },
