@@ -8,24 +8,24 @@ services:
     environment:
       - POSTGRES_HOST=db #Override host for use Compose service
 
-    develop:
-      watch:
-        - path: ./api
-          action: sync
-          target: /usr/local/app
-          ignore:
-            - node_modules/
+    # develop:
+    #   watch:
+    #     - path: ./api
+    #       action: sync
+    #       target: /usr/local/app
+    #       ignore:
+    #         - node_modules/
+    #
+    #     - path: ./api/package.json
+    #       action: rebuild
+    #
+    #     # If the schema changes must rebuild the container for type update
+    #     - path: ./api/prisma
+    #       action: rebuild
 
-        - path: ./api/package.json
-          action: rebuild
-
-        # If the schema changes must rebuild the container for type update
-        - path: ./api/prisma
-          action: rebuild
-
-    # volumes:
-    #   - ./api/:/usr/src/app # Mounts your local app folder to the container
-    # - /usr/src/app/node_modules # Ensures node_modules persist inside the container
+    volumes:
+      - ./api/:/usr/src/app # Mounts your local app folder to the container
+      - /usr/src/app/node_modules # Ensures node_modules persist inside the container
     ports:
       - "4512:4512" # Expose the Fastify app on localhost:3000
     depends_on:

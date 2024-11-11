@@ -12,7 +12,16 @@ const server = fastify({
   loggerInstance: getRequestLogger(),
   ignoreDuplicateSlashes: true,
   ignoreTrailingSlash: true,
+  logger: true,
 });
+// Normally you would need to load by hand each plugin. `fastify-autoload` is an utility
+// we wrote to solve this specific problems. It loads all the content from the specified
+// folder, even the subfolders. Take at look at its documentation, as it's doing a lot more!
+// First of all, we require all the plugins that we'll need in our application.
+//server.register(AutoLoad, {
+//  dir: join(import.meta.url, 'plugins'),
+//  options: Object.assign({}, opts),
+//});
 
 server.register(helmet);
 server.register(fastifyAccepts);
@@ -140,11 +149,42 @@ server.register((server, _opts, done) => {
   });
 
   server.post('/api/post', {}, async (request, res) => {
+    //try {
     prisma.user.create({ data: { name: 'Heloworld' } });
+    //} catch (e) {logger.}
     res.status(201);
     return request.body;
+  });
+  server.get('/api/get_all', {}, async (request, res) => {
+    const users = prisma.user.findMany();
+    return users;
   });
   done();
 });
 
 export { server };
+function AutoLoad(
+  instance: FastifyInstance<
+    RawServerDefault,
+    IncomingMessage,
+    ServerResponse<IncomingMessage>,
+    FastifyBaseLogger,
+    FastifyTypeProvider
+  >,
+  opts: {
+    dir: any;
+    options: RouteShorthandOptions<
+      RawServerDefault,
+      IncomingMessage,
+      ServerResponse<IncomingMessage>,
+      RouteGenericInterface,
+      unknown,
+      FastifySchema,
+      FastifyTypeProviderDefault,
+      FastifyBaseLogger
+    >;
+  },
+  done: (err?: Error | undefined) => void
+): void {
+  throw new Error('Function not implemented.');
+}
