@@ -136,4 +136,4 @@ dist
 .vscode
 
 # Primsa
-./prisma/client/
+/prisma/client/
