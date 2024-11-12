@@ -1,0 +1,18 @@
+// This autogenerates the prisma client in other path for being separated from node_modules
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["prismaSchemaFolder"]
+  output          = "../client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id      Int     @id @default(autoincrement())
+  name    String?
+  surname String?
+  test    String?
+}

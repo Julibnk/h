@@ -5,8 +5,6 @@ services:
       context: ./api
       target: api-dev
     env_file: ./api/.env
-    environment:
-      - POSTGRES_HOST=db #Override host for use Compose service
 
     develop:
       watch:
@@ -19,17 +17,19 @@ services:
         #     - path: ./api/package.json
         #       action: rebuild
         #
-        #     # If the schema changes must rebuild the container for type update
-        - path: ./api/prisma
+        # If the schema changes must rebuild the container for type update
+        - path: ./api/prisma/schema/
           action: rebuild
 
     volumes:
       - ./api/src:/usr/src/app/src # Mounts your local app folder to the container
+      - ./api/prisma/client:/usr/src/app/prisma/client # Mounts prisma generated types to local
       - /usr/src/app/node_modules # Ensures node_modules persist inside the container
     ports:
       - "4512:4512" # Expose the Fastify app on localhost:3000
     depends_on:
       - db
+    entrypoint: ["sh", "-c", "npx prisma db push && npm run dev"]
 
   db:
     build:

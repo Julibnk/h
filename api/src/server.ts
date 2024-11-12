@@ -3,8 +3,8 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
-import { PrismaClient } from '@prisma/client';
-import fastify, { RouteShorthandOptions } from 'fastify';
+import fastify from 'fastify';
+import { PrismaClient } from '../prisma/client';
 import { env } from './env.js';
 import { getRequestLogger } from './logger.js';
 
@@ -149,7 +149,7 @@ server.register((server, _opts, done) => {
 
   server.post('/api/post', {}, async (request, res) => {
     try {
-      await prisma.user.create({ data: { name: 'Heloworld' } });
+      await prisma.user.create({ data: { name: 'Heloworld', surname: 'afdads', test: 'asdas' } });
     } catch (e) {
       console.log(e);
     }
