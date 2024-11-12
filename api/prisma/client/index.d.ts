@@ -867,21 +867,18 @@ export namespace Prisma {
     id: number | null
     name: string | null
     surname: string | null
-    test: string | null
   }
 
   export type UserMaxAggregateOutputType = {
     id: number | null
     name: string | null
     surname: string | null
-    test: string | null
   }
 
   export type UserCountAggregateOutputType = {
     id: number
     name: number
     surname: number
-    test: number
     _all: number
   }
 
@@ -898,21 +895,18 @@ export namespace Prisma {
     id?: true
     name?: true
     surname?: true
-    test?: true
   }
 
   export type UserMaxAggregateInputType = {
     id?: true
     name?: true
     surname?: true
-    test?: true
   }
 
   export type UserCountAggregateInputType = {
     id?: true
     name?: true
     surname?: true
-    test?: true
     _all?: true
   }
 
@@ -1006,7 +1000,6 @@ export namespace Prisma {
     id: number
     name: string | null
     surname: string | null
-    test: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1032,21 +1025,18 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     surname?: boolean
-    test?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
     surname?: boolean
-    test?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
     id?: boolean
     name?: boolean
     surname?: boolean
-    test?: boolean
   }
 
 
@@ -1057,7 +1047,6 @@ export namespace Prisma {
       id: number
       name: string | null
       surname: string | null
-      test: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1454,7 +1443,6 @@ export namespace Prisma {
     readonly id: FieldRef<"User", 'Int'>
     readonly name: FieldRef<"User", 'String'>
     readonly surname: FieldRef<"User", 'String'>
-    readonly test: FieldRef<"User", 'String'>
   }
     
 
@@ -1760,8 +1748,7 @@ export namespace Prisma {
   export const UserScalarFieldEnum: {
     id: 'id',
     name: 'name',
-    surname: 'surname',
-    test: 'test'
+    surname: 'surname'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1848,14 +1835,12 @@ export namespace Prisma {
     id?: IntFilter<"User"> | number
     name?: StringNullableFilter<"User"> | string | null
     surname?: StringNullableFilter<"User"> | string | null
-    test?: StringNullableFilter<"User"> | string | null
   }
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     surname?: SortOrderInput | SortOrder
-    test?: SortOrderInput | SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -1865,14 +1850,12 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringNullableFilter<"User"> | string | null
     surname?: StringNullableFilter<"User"> | string | null
-    test?: StringNullableFilter<"User"> | string | null
   }, "id">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrderInput | SortOrder
     surname?: SortOrderInput | SortOrder
-    test?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -1887,53 +1870,45 @@ export namespace Prisma {
     id?: IntWithAggregatesFilter<"User"> | number
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     surname?: StringNullableWithAggregatesFilter<"User"> | string | null
-    test?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type UserCreateInput = {
     name?: string | null
     surname?: string | null
-    test?: string | null
   }
 
   export type UserUncheckedCreateInput = {
     id?: number
     name?: string | null
     surname?: string | null
-    test?: string | null
   }
 
   export type UserUpdateInput = {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     surname?: NullableStringFieldUpdateOperationsInput | string | null
-    test?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
     surname?: NullableStringFieldUpdateOperationsInput | string | null
-    test?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateManyInput = {
     id?: number
     name?: string | null
     surname?: string | null
-    test?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     surname?: NullableStringFieldUpdateOperationsInput | string | null
-    test?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: NullableStringFieldUpdateOperationsInput | string | null
     surname?: NullableStringFieldUpdateOperationsInput | string | null
-    test?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -1971,7 +1946,6 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     surname?: SortOrder
-    test?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -1982,14 +1956,12 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     surname?: SortOrder
-    test?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
     surname?: SortOrder
-    test?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {

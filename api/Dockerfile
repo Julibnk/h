@@ -14,8 +14,6 @@ RUN npm install
 # Copy the rest of the application files
 COPY . .
 
-# Adjust prima database
-RUN npx prisma generate
 
 # NOTE: Local development image 
 

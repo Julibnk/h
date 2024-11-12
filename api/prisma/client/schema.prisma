@@ -14,5 +14,4 @@ model User {
   id      Int     @id @default(autoincrement())
   name    String?
   surname String?
-  test    String?
 }

@@ -5,6 +5,8 @@ services:
       context: ./api
       target: api-dev
     env_file: ./api/.env
+    environment:
+      - POSTGRES_HOST=db
 
     develop:
       watch:
@@ -29,7 +31,8 @@ services:
       - "4512:4512" # Expose the Fastify app on localhost:3000
     depends_on:
       - db
-    entrypoint: ["sh", "-c", "npx prisma db push && npm run dev"]
+    entrypoint:
+      ["sh", "-c", "npx prisma generate && npx prisma db push && npm run dev"]
 
   db:
     build:
