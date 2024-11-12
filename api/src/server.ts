@@ -12,7 +12,6 @@ const server = fastify({
   loggerInstance: getRequestLogger(),
   ignoreDuplicateSlashes: true,
   ignoreTrailingSlash: true,
-  logger: true,
 });
 // Normally you would need to load by hand each plugin. `fastify-autoload` is an utility
 // we wrote to solve this specific problems. It loads all the content from the specified
@@ -93,50 +92,50 @@ if (env.CORS !== '') {
   server.register(cors, { origin: env.CORS.split(',') });
 }
 
-const opts: RouteShorthandOptions = {
-  schema: {
-    description: 'post some data',
-    tags: ['user', 'code'],
-
-    // params: {
-    //   type: 'object',
-    //   properties: {
-    //     id: {
-    //       type: 'string',
-    //       description: 'user id',
-    //     },
-    //   },
-    // },
-    body: {
-      type: 'object',
-      required: ['name', 'parentId', 'requiredKey'],
-      additionalProperties: false,
-      properties: {
-        hello: { type: 'string' },
-        obj: {
-          type: 'object',
-          properties: {
-            some: { type: 'string' },
-          },
-        },
-      },
-    },
-    response: {
-      201: {
-        description: 'Successful response',
-        type: 'object',
-        properties: {
-          hello: { type: 'string' },
-        },
-      },
-    },
-    // security: [
-    //   {
-    //     apiKey: [],
-    //   },
-    // ],
-  },
-};
+//const opts: RouteShorthandOptions = {
+//  schema: {
+//    description: 'post some data',
+//    tags: ['user', 'code'],
+//
+//    // params: {
+//    //   type: 'object',
+//    //   properties: {
+//    //     id: {
+//    //       type: 'string',
+//    //       description: 'user id',
+//    //     },
+//    //   },
+//    // },
+//    body: {
+//      type: 'object',
+//      required: ['name', 'parentId', 'requiredKey'],
+//      additionalProperties: false,
+//      properties: {
+//        hello: { type: 'string' },
+//        obj: {
+//          type: 'object',
+//          properties: {
+//            some: { type: 'string' },
+//          },
+//        },
+//      },
+//    },
+//    response: {
+//      201: {
+//        description: 'Successful response',
+//        type: 'object',
+//        properties: {
+//          hello: { type: 'string' },
+//        },
+//      },
+//    },
+//    // security: [
+//    //   {
+//    //     apiKey: [],
+//    //   },
+//    // ],
+//  },
+//};
 const prisma = new PrismaClient();
 server.register((server, _opts, done) => {
   server.get('/api/healthcheck', async () => {
@@ -149,13 +148,15 @@ server.register((server, _opts, done) => {
   });
 
   server.post('/api/post', {}, async (request, res) => {
-    //try {
-    prisma.user.create({ data: { name: 'Heloworld' } });
-    //} catch (e) {logger.}
+    try {
+      await prisma.user.create({ data: { name: 'Heloworld' } });
+    } catch (e) {
+      console.log(e);
+    }
     res.status(201);
     return request.body;
   });
-  server.get('/api/get_all', {}, async (request, res) => {
+  server.get('/api/get_all', {}, async () => {
     const users = prisma.user.findMany();
     return users;
   });
@@ -163,28 +164,3 @@ server.register((server, _opts, done) => {
 });
 
 export { server };
-function AutoLoad(
-  instance: FastifyInstance<
-    RawServerDefault,
-    IncomingMessage,
-    ServerResponse<IncomingMessage>,
-    FastifyBaseLogger,
-    FastifyTypeProvider
-  >,
-  opts: {
-    dir: any;
-    options: RouteShorthandOptions<
-      RawServerDefault,
-      IncomingMessage,
-      ServerResponse<IncomingMessage>,
-      RouteGenericInterface,
-      unknown,
-      FastifySchema,
-      FastifyTypeProviderDefault,
-      FastifyBaseLogger
-    >;
-  },
-  done: (err?: Error | undefined) => void
-): void {
-  throw new Error('Function not implemented.');
-}
