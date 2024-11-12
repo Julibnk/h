@@ -1,9 +1,11 @@
+import path from 'path';
 import fastifyAccepts from '@fastify/accepts';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import fastify from 'fastify';
+import autoload from 'fastify-autoload';
 import { PrismaClient } from '../prisma/client';
 import { env } from './env.js';
 import { getRequestLogger } from './logger.js';
@@ -57,27 +59,32 @@ server.register(swagger, {
     },
   },
 });
-
-server.register(swaggerUi, {
-  routePrefix: '/documentation',
-  uiConfig: {
-    docExpansion: 'full',
-    deepLinking: false,
-  },
-  uiHooks: {
-    onRequest: function (request, reply, next) {
-      next();
+if (env.NODE_ENV !== 'production') {
+  server.register(swaggerUi, {
+    routePrefix: '/documentation',
+    uiConfig: {
+      docExpansion: 'full',
+      deepLinking: false,
     },
-    preHandler: function (request, reply, next) {
-      next();
+    uiHooks: {
+      onRequest: function (request, reply, next) {
+        next();
+      },
+      preHandler: function (request, reply, next) {
+        next();
+      },
     },
-  },
-  staticCSP: true,
-  transformStaticCSP: (header) => header,
-  transformSpecification: (swaggerObject) => {
-    return swaggerObject;
-  },
-  transformSpecificationClone: true,
+    staticCSP: true,
+    transformStaticCSP: (header) => header,
+    transformSpecification: (swaggerObject) => {
+      return swaggerObject;
+    },
+    transformSpecificationClone: true,
+  });
+}
+// Register plugins
+server.register(autoload, {
+  dir: path.join(__dirname, 'plugins'),
 });
 
 server.addHook('onRequest', (request, reply, done) => {
