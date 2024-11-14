@@ -2,3 +2,26 @@ enum InsuranceType {
   HOME
   LIFE
 }
+
+enum MortageType {
+  FIX
+  VARIABLE
+  MIX
+}
+
+enum LinkedCostType {
+  LIFE_INSURANCE
+  HOME_INSURANCE
+  CREDIT_CARD
+  OPENING_FEE
+  ACCOUNT_FEE
+  ALARM
+  OTHER
+}
+
+enum CostFrequency {
+  ANUAL
+  QUARTERLY
+  MONTHLY
+  ONE_TIME
+}
