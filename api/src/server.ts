@@ -1,12 +1,12 @@
 import path from 'path';
 import fastifyAccepts from '@fastify/accepts';
+import autoload from '@fastify/autoload';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import fastify from 'fastify';
-import autoload from 'fastify-autoload';
-import { PrismaClient } from '../prisma/client';
+import { PrismaClient } from '../prisma/client/index.js';
 import { env } from './env.js';
 import { getRequestLogger } from './logger.js';
 
@@ -15,6 +15,8 @@ const server = fastify({
   ignoreDuplicateSlashes: true,
   ignoreTrailingSlash: true,
 });
+
+//type a typeof server;
 // Normally you would need to load by hand each plugin. `fastify-autoload` is an utility
 // we wrote to solve this specific problems. It loads all the content from the specified
 // folder, even the subfolders. Take at look at its documentation, as it's doing a lot more!
@@ -26,65 +28,16 @@ const server = fastify({
 
 server.register(helmet);
 server.register(fastifyAccepts);
-server.register(swagger, {
-  openapi: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Test swagger',
-      description: 'Testing the Fastify swagger API',
-      version: '0.1.0',
-    },
-    // servers: [
-    //   {
-    //     url: 'http://localhost:3000',
-    //     description: 'Development server',
-    //   },
-    // ],
-    tags: [
-      // { name: 'api', description: 'User related end-points' },
-      // { name: 'code', description: 'Code related end-points' },
-    ],
-    components: {
-      securitySchemes: {
-        apiKey: {
-          type: 'apiKey',
-          name: 'apiKey',
-          in: 'header',
-        },
-      },
-    },
-    externalDocs: {
-      url: 'https://swagger.io',
-      description: 'Find more info here',
-    },
-  },
-});
-if (env.NODE_ENV !== 'production') {
-  server.register(swaggerUi, {
-    routePrefix: '/documentation',
-    uiConfig: {
-      docExpansion: 'full',
-      deepLinking: false,
-    },
-    uiHooks: {
-      onRequest: function (request, reply, next) {
-        next();
-      },
-      preHandler: function (request, reply, next) {
-        next();
-      },
-    },
-    staticCSP: true,
-    transformStaticCSP: (header) => header,
-    transformSpecification: (swaggerObject) => {
-      return swaggerObject;
-    },
-    transformSpecificationClone: true,
-  });
-}
+
 // Register plugins
 server.register(autoload, {
   dir: path.join(__dirname, 'plugins'),
+});
+
+// Register routes in modules folder that has *route*.ts name
+server.register(autoload, {
+  dir: path.join(__dirname, 'modules'),
+  matchFilter: /.*route.*\.ts$/,
 });
 
 server.addHook('onRequest', (request, reply, done) => {
@@ -156,7 +109,7 @@ server.register((server, _opts, done) => {
 
   server.post('/api/post', {}, async (request, res) => {
     try {
-      await prisma.user.create({ data: { name: 'Heloworld', surname: 'afdads', test: 'asdas' } });
+      await prisma.user.create({ data: { name: 'Heloworld', surname: 'afdads' } });
     } catch (e) {
       console.log(e);
     }
