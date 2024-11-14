@@ -10,8 +10,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
-  id      Int     @id @default(autoincrement())
-  name    String?
-  surname String?
+model InsuranceCompany {
+  id   String         @id @default(uuid())
+  name String
+  insurances Insurance[]
+}
+
+model Insurance {
+  id   String         @id @default(uuid())
+  type InsuranceType? 
+  cost Int
+  insuranceCompany InsuranceCompany @relation(fields: [insuranceCompanyId], references: [id])
+  insuranceCompanyId String
 }

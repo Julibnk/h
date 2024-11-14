@@ -42,8 +42,4 @@ server.addHook('onRequest', (request, reply, done) => {
   }
 });
 
-//server.register((server, _opts, done) => {
-//  done();
-//});
-
 export { server };
