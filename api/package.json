@@ -66,5 +66,8 @@
     "fastify": "^5.0.0",
     "pino": "^9.2.0",
     "zod": "^3.23.8"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   }
 }

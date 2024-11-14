@@ -1,4 +1,4 @@
-import { FastifyInstance, FastifyPluginAsync } from 'fastify';
+import { FastifyPluginAsync } from 'fastify';
 import fp from 'fastify-plugin';
 import { PrismaClient } from 'prisma/client/index.js';
 import { logger } from '@/logger.js';
@@ -9,26 +9,13 @@ declare module 'fastify' {
     prisma: PrismaClient;
   }
 }
-//
-//export default async function (server: FastifyInstance) {
-//  logger.info('Prisma startup');
-//  const prismaPlugin: FastifyPluginAsync = fp(async (server) => {
-//    const prisma = new PrismaClient();
-//    await prisma.$connect();
-//
-//    logger.info('Prisma startup');
-//    // Make Prisma Client available through the fastify server instance: server.prisma
-//    server.decorate('prisma', prisma);
-//
-//    server.addHook('onClose', async (server) => {
-//      await server.prisma.$disconnect();
-//    });
-//  });
-//  server.register(prismaPlugin);
-//}
 
 const prismaPlugin: FastifyPluginAsync = fp(async (server) => {
-  const prisma = new PrismaClient();
+  const prisma = new PrismaClient({ log: ['query', 'info'] });
+  //prisma.$on('query', (e) => {
+  //  logger.debug('Prisma', e);
+  //});
+
   await prisma.$connect();
 
   logger.info('Prisma startup');
