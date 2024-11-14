@@ -6,7 +6,6 @@ import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import fastify from 'fastify';
 import { env } from '@/env.js';
-import { PrismaClient } from '../prisma/client/index.js';
 import { getRequestLogger } from './logger.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -30,8 +29,9 @@ server.register(autoload, {
 
 // Register routes in modules folder that has *route*.ts name
 server.register(autoload, {
-  dir: join(__dirname, 'modules'),
+  dir: join(__dirname, 'core'),
   matchFilter: /.*route.*\.ts$/,
+  options: { prefix: '/api' },
 });
 
 server.addHook('onRequest', (request, reply, done) => {
@@ -42,22 +42,8 @@ server.addHook('onRequest', (request, reply, done) => {
   }
 });
 
-const prisma = new PrismaClient();
-server.register((server, _opts, done) => {
-  server.post('/api/post', {}, async (request, res) => {
-    try {
-      await prisma.user.create({ data: { name: 'Heloworld', surname: 'afdads' } });
-    } catch (e) {
-      console.log(e);
-    }
-    res.status(201);
-    return request.body;
-  });
-  server.get('/api/get_all', {}, async () => {
-    const users = prisma.user.findMany();
-    return users;
-  });
-  done();
-});
+//server.register((server, _opts, done) => {
+//  done();
+//});
 
 export { server };
