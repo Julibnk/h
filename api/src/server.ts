@@ -1,12 +1,12 @@
-import path, { dirname, join } from 'path';
+import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import fastifyAccepts from '@fastify/accepts';
 import autoload from '@fastify/autoload';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import fastify from 'fastify';
+import { env } from '@/env.js';
 import { PrismaClient } from '../prisma/client/index.js';
-import { env } from './env.js';
 import { getRequestLogger } from './logger.js';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -20,7 +20,9 @@ const server = fastify({
 
 server.register(helmet);
 server.register(fastifyAccepts);
-
+if (env.CORS !== '') {
+  server.register(cors, { origin: env.CORS.split(',') });
+}
 // Register plugins
 server.register(autoload, {
   dir: join(__dirname, 'plugins'),
@@ -40,54 +42,6 @@ server.addHook('onRequest', (request, reply, done) => {
   }
 });
 
-if (env.CORS !== '') {
-  server.register(cors, { origin: env.CORS.split(',') });
-}
-
-//const opts: RouteShorthandOptions = {
-//  schema: {
-//    description: 'post some data',
-//    tags: ['user', 'code'],
-//
-//    // params: {
-//    //   type: 'object',
-//    //   properties: {
-//    //     id: {
-//    //       type: 'string',
-//    //       description: 'user id',
-//    //     },
-//    //   },
-//    // },
-//    body: {
-//      type: 'object',
-//      required: ['name', 'parentId', 'requiredKey'],
-//      additionalProperties: false,
-//      properties: {
-//        hello: { type: 'string' },
-//        obj: {
-//          type: 'object',
-//          properties: {
-//            some: { type: 'string' },
-//          },
-//        },
-//      },
-//    },
-//    response: {
-//      201: {
-//        description: 'Successful response',
-//        type: 'object',
-//        properties: {
-//          hello: { type: 'string' },
-//        },
-//      },
-//    },
-//    // security: [
-//    //   {
-//    //     apiKey: [],
-//    //   },
-//    // ],
-//  },
-//};
 const prisma = new PrismaClient();
 server.register((server, _opts, done) => {
   server.post('/api/post', {}, async (request, res) => {
