@@ -1,6 +1,7 @@
 import swagger from '@fastify/swagger';
 import swaggerUi from '@fastify/swagger-ui';
 import { FastifyInstance } from 'fastify';
+import { jsonSchemaTransform } from 'fastify-type-provider-zod';
 import { env } from '@/env.js';
 
 export default async function (server: FastifyInstance) {
@@ -36,6 +37,7 @@ export default async function (server: FastifyInstance) {
         description: 'Find more info here',
       },
     },
+    transform: jsonSchemaTransform,
   });
   if (env.NODE_ENV !== 'production') {
     server.register(swaggerUi, {

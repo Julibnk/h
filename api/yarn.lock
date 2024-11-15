@@ -1573,6 +1573,14 @@ fastify-plugin@^5.0.0:
   resolved "https://registry.npmjs.org/fastify-plugin/-/fastify-plugin-5.0.1.tgz"
   integrity sha512-HCxs+YnRaWzCl+cWRYFnHmeRFyR5GVnJTAaCJQiYzQSDwK9MgJdyAsuL3nh0EWRCYMgQ5MeziymvmAhUHYHDUQ==
 
+fastify-type-provider-zod@^4.0.2:
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/fastify-type-provider-zod/-/fastify-type-provider-zod-4.0.2.tgz"
+  integrity sha512-FDRzSL3ZuoZ+4YDevR1YOinmDKkxOdy3QB9dDR845sK+bQvDroPKhHAXLEAOObDxL7SMA0OZN/A4osrNBTdDTQ==
+  dependencies:
+    "@fastify/error" "^4.0.0"
+    zod-to-json-schema "^3.23.3"
+
 fastify@^5.0.0:
   version "5.0.0"
   resolved "https://registry.npmjs.org/fastify/-/fastify-5.0.0.tgz"
@@ -3162,5 +3170,10 @@ yn@3.1.1:
 yocto-queue@^0.1.0:
   version "0.1.0"
 
-zod@^3.23.8:
+zod-to-json-schema@^3.23.3:
+  version "3.23.5"
+  resolved "https://registry.npmjs.org/zod-to-json-schema/-/zod-to-json-schema-3.23.5.tgz"
+  integrity sha512-5wlSS0bXfF/BrL4jPAbz9da5hDlDptdEppYfe+x4eIJ7jioqKG9uUxOwPzqof09u/XeVdrgFu29lZi+8XNDJtA==
+
+zod@^3.14.2, zod@^3.23.3, zod@^3.23.8:
   version "3.23.8"

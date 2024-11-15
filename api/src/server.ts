@@ -5,6 +5,7 @@ import autoload from '@fastify/autoload';
 import cors from '@fastify/cors';
 import helmet from '@fastify/helmet';
 import fastify from 'fastify';
+import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
 import { env } from '@/env.js';
 import { getRequestLogger } from './logger.js';
 
@@ -16,6 +17,10 @@ const server = fastify({
   ignoreDuplicateSlashes: true,
   ignoreTrailingSlash: true,
 });
+
+//ZOD compiler
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
 
 server.register(helmet);
 server.register(fastifyAccepts);
