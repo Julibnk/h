@@ -1,9 +1,10 @@
+import { InsuranceType } from 'prisma/client/index.js';
 import z from 'zod';
 
-enum InsuranceType {
-  HOME = 'HOME',
-  LIFE = 'LIFE',
-}
+//enum InsuranceType {
+//  HOME = 'HOME',
+//  LIFE = 'LIFE',
+//}
 export const InsuranceSchema = z.object({
   id: z.string(),
   cost: z.number(),
