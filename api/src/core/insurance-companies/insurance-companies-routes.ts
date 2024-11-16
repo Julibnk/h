@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
-import { InsuranceCompanySchema } from './insurance-companies-schemas.js';
+import { InsuranceCompanySchema, InsuranceSchema } from './insurance-companies-schemas.js';
 
 export default async function (server: FastifyInstance) {
   server.withTypeProvider<ZodTypeProvider>().route({
@@ -37,25 +37,30 @@ export default async function (server: FastifyInstance) {
 
   server.withTypeProvider<ZodTypeProvider>().route({
     method: 'POST',
-    url: '/:id/poliza', // TODO Cmabiar
+    url: '/:id/policy',
     schema: {
       params: z.object({ id: z.string().uuid() }),
-      body: InsuranceCompanySchema,
+      body: InsuranceSchema,
       response: {
-        201: InsuranceCompanySchema,
+        201: InsuranceSchema,
         404: z.null(),
       },
     },
     handler: async (req, res) => {
-      const insurance = await server.prisma.insuranceCompany.findUnique({
-        where: { id: req.params.id },
-        include: { insurances: true },
+      const insurance = await server.prisma.insurance.create({
+        data: {
+          id: req.body.id,
+          cost: req.body.cost,
+          type: req.body.type,
+          insuranceCompany: { connect: { id: req.params.id } },
+        },
       });
       if (!insurance) {
         res.status(404);
         return;
       }
-      return insurance;
+      res.status(201);
+      //return insurance;
     },
   });
   //server.withTypeProvider<ZodTypeProvider>().route({
