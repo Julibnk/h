@@ -11,69 +11,68 @@ datasource db {
 }
 
 model InsuranceCompany {
-  id   String         @id @default(uuid()) @db.Uuid
-  name String
+  id         String      @id @default(uuid()) @db.Uuid
+  name       String
   insurances Insurance[]
 }
 
 model Insurance {
-  id   String         @id @default(uuid()) @db.Uuid
-  type InsuranceType? 
-  cost Int
-  insuranceCompany InsuranceCompany @relation(fields: [insuranceCompanyId], references: [id])
-  insuranceCompanyId String   @db.Uuid
+  id                 String           @id @default(uuid()) @db.Uuid
+  type               InsuranceType
+  cost               Int
+  insuranceCompany   InsuranceCompany @relation(fields: [insuranceCompanyId], references: [id])
+  insuranceCompanyId String           @db.Uuid
 }
 
 model BankCompany {
-  id   String         @id @default(uuid()) @db.Uuid
-  name String
+  id         String      @id @default(uuid()) @db.Uuid
+  name       String
   bankOffers BankOffer[]
 }
 
 model BankOffer {
-  id   String         @id @default(uuid()) @db.Uuid
-  version Int 
-  propertyPrice Decimal
-  percentage  Decimal
-  requestedAmount Decimal 
-  type MortageType 
+  id              String      @id @default(uuid()) @db.Uuid
+  version         Int
+  propertyPrice   Decimal
+  percentage      Decimal
+  requestedAmount Decimal
+  type            MortageType
 
-  bankOfferSimulations BankOfferSimulation []
+  bankOfferSimulations BankOfferSimulation[]
 
-  bankCompany BankCompany @relation(fields: [bankCompanyId], references: [id])
-  bankCompanyId String  @db.Uuid
+  bankCompany   BankCompany @relation(fields: [bankCompanyId], references: [id])
+  bankCompanyId String      @db.Uuid
 }
 
 model BankOfferSimulation {
-  id   String         @id @default(uuid()) @db.Uuid
+  id String @id @default(uuid()) @db.Uuid
 
   tin Decimal
   tae Decimal
 
-  openingFee Decimal
+  openingFee      Decimal
   amortizacionFee Decimal
   cancellationFee Decimal
 
-  monthlyPayment Decimal
+  monthlyPayment           Decimal
   monthlyLinkedProductCost Decimal
-  totalInterest Decimal
-  totalAmount Decimal
+  totalInterest            Decimal
+  totalAmount              Decimal
 
-  bankOffer BankOffer @relation(fields: [bankOfferId], references: [id])
-  bankOfferId String  @db.Uuid
-  
-  bankOfferLinkedCost  BankOfferLinkedCost[] 
+  bankOffer   BankOffer @relation(fields: [bankOfferId], references: [id])
+  bankOfferId String    @db.Uuid
+
+  bankOfferLinkedCost BankOfferLinkedCost[]
 }
 
 model BankOfferLinkedCost {
   id   String         @id @default(uuid()) @db.Uuid
   type LinkedCostType
 
-  cost Decimal
+  cost     Decimal
   costType CostFrequency
 
   bonus Decimal
 
-  bankOfferSimulations  BankOfferSimulation[] 
-
+  bankOfferSimulations BankOfferSimulation[]
 }
