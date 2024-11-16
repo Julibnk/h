@@ -9,4 +9,8 @@ export default async function (server: FastifyInstance) {
     res.status(201);
     return request.body;
   });
+  server.post('/masterdata', {}, async (request, res) => {
+    res.status(201);
+    return request.body;
+  });
 }
