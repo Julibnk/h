@@ -1,6 +1,6 @@
 import { PrismaClient } from './client/index.js';
 const data = {
-    bankCompany: [
+    bank: [
         { id: '52082553-a0e9-4bbd-a9b9-0f66d0e3e48e', name: 'BBVA' },
         { id: '8d635f03-6137-4ca8-be6c-b158bbf65a17', name: 'Sabadell' },
         { id: '1237b5ee-19d1-45db-ba2c-7a92912b8abe', name: 'Caixa' },
@@ -15,8 +15,8 @@ const data = {
 };
 const prisma = new PrismaClient();
 async function main() {
-    for (const bank of data.bankCompany) {
-        await prisma.bankCompany.upsert({
+    for (const bank of data.bank) {
+        await prisma.bank.upsert({
             where: { id: bank.id },
             update: {},
             create: {

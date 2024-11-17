@@ -24,7 +24,7 @@ model Insurance {
   insuranceCompanyId String           @db.Uuid
 }
 
-model BankCompany {
+model Bank {
   id         String      @id @default(uuid()) @db.Uuid
   name       String
   bankOffers BankOffer[]
@@ -40,8 +40,8 @@ model BankOffer {
 
   bankOfferSimulations BankOfferSimulation[]
 
-  bankCompany   BankCompany @relation(fields: [bankCompanyId], references: [id])
-  bankCompanyId String      @db.Uuid
+  bank Bank @relation(fields: [bankId], references: [id])
+  bankId      String      @db.Uuid
 }
 
 model BankOfferSimulation {
