@@ -11,7 +11,12 @@
     "rootDir": "src",
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ]
     }
-  }
+  },
+  "exclude": [
+    "./prisma/*"
+  ]
 }
