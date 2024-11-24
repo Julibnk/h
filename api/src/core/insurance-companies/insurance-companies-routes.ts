@@ -26,7 +26,7 @@ export default async function (server: FastifyInstance) {
     handler: async (req, res) => {
       const insurance = await server.prisma.insuranceCompany.findUnique({
         where: { id: req.params.id },
-        include: { insurances: true },
+        include: { policies: true },
       });
       if (!insurance) {
         res.status(404);

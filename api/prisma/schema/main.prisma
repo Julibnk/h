@@ -11,12 +11,12 @@ datasource db {
 }
 
 model InsuranceCompany {
-  id         String      @id @default(uuid()) @db.Uuid
-  name       String
-  insurances Insurance[]
+  id       String   @id @default(uuid()) @db.Uuid
+  name     String
+  policies Policy[]
 }
 
-model Insurance {
+model Policy {
   id                 String           @id @default(uuid()) @db.Uuid
   type               InsuranceType
   cost               Int
@@ -40,8 +40,8 @@ model BankOffer {
 
   bankOfferSimulations BankOfferSimulation[]
 
-  bank Bank @relation(fields: [bankId], references: [id])
-  bankId      String      @db.Uuid
+  bank   Bank   @relation(fields: [bankId], references: [id])
+  bankId String @db.Uuid
 }
 
 model BankOfferSimulation {

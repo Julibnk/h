@@ -1,7 +1,21 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyReply, FastifyRequest, RouteHandlerMethod } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
-import { BankSchema } from './banks-schemas.js';
+import { Decimal } from 'prisma/client/runtime/library.js';
+import { z } from 'zod';
+import { BankOfferSchema, BankSchema } from './banks-schemas.js';
 
+// Define the handler type
+//type GetBanksHandler = (
+//  request: FastifyRequest<{
+//    Querystring: typeof querySchema._output;
+//    Params: typeof paramsSchema._output;
+//  }>,
+//  response: FastifyReply<>
+//
+//
+//) => Promise<void>;
+
+//const a: RouteHandlerMethod = {};
 export default async function (server: FastifyInstance) {
   server.withTypeProvider<ZodTypeProvider>().route({
     method: 'GET',
@@ -12,29 +26,58 @@ export default async function (server: FastifyInstance) {
       return insurance;
     },
   });
-  //server.withTypeProvider<ZodTypeProvider>().route({
-  //  method: 'GET',
-  //  url: '/:id',
-  //  schema: {
-  //    params: z.object({ id: z.string().uuid() }),
-  //    response: {
-  //      200: InsuranceCompanySchema,
-  //      404: z.null(),
-  //    },
-  //  },
-  //  handler: async (req, res) => {
-  //    const insurance = await server.prisma.insuranceCompany.findUnique({
-  //      where: { id: req.params.id },
-  //      include: { insurances: true },
-  //    });
-  //    if (!insurance) {
-  //      res.status(404);
-  //      return;
-  //    }
-  //    return insurance;
-  //  },
-  //});
-  //
+  server.withTypeProvider<ZodTypeProvider>().route({
+    method: 'POST',
+    url: '/:bankId/offers',
+    schema: {
+      params: z.object({ bankId: z.string().uuid() }),
+      body: BankOfferSchema,
+      response: {
+        201: BankOfferSchema,
+        404: z.null(),
+      },
+    },
+    handler: async (req, res) => {
+      const bankOffer = await server.prisma.bankOffer.create({
+        data: {
+          id: req.body.id,
+          version: req.body.version,
+          propertyPrice: new Decimal(req.body.propertyPrice),
+          percentage: new Decimal(req.body.percentage),
+          requestedAmount: new Decimal(req.body.requestedAmount),
+          type: req.body.type,
+          bank: { connect: { id: req.params.bankId } },
+        },
+      });
+      if (!bankOffer) {
+        res.status(404);
+        return;
+      }
+      return bankOffer;
+    },
+  });
+
+  server.withTypeProvider<ZodTypeProvider>().route({
+    method: 'GET',
+    url: '/:id/offers',
+    schema: {
+      params: z.object({ id: z.string().uuid() }),
+      response: {
+        200: BankOfferSchema,
+        404: z.null(),
+      },
+    },
+    handler: async (req, res) => {
+      const bankOffers = await server.prisma.bankOffer.findMany({
+        where: { bankId: req.params.id },
+      });
+      if (!baknOffers) {
+        res.status(404);
+        return;
+      }
+      return bankOffers;
+    },
+  });
   //server.withTypeProvider<ZodTypeProvider>().route({
   //  method: 'POST',
   //  url: '/:id/policy',

@@ -13,7 +13,7 @@ export default async function (server: FastifyInstance) {
         404: z.null(),
       },
     },
-    handler: async () => await server.prisma.insurance.findMany(),
+    handler: async () => await server.prisma.policy.findMany(),
   });
 
   server.withTypeProvider<ZodTypeProvider>().route({
@@ -27,7 +27,7 @@ export default async function (server: FastifyInstance) {
       },
     },
     handler: async (req, res) => {
-      const insurance = await server.prisma.insurance.create({
+      const insurance = await server.prisma.policy.create({
         data: {
           id: req.body.id,
           cost: req.body.cost,
@@ -40,7 +40,7 @@ export default async function (server: FastifyInstance) {
         return;
       }
       res.status(201);
-      //return insurance;
+      return insurance;
     },
   });
 }

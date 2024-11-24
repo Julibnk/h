@@ -10,7 +10,6 @@ export const BankOfferSchema = z.object({
   version: z.number(),
   propertyPrice: z.number(),
   percentage: z.number(),
-  requestedAmoung: z.number(),
+  requestedAmount: z.number(),
   type: z.nativeEnum(MortageType),
-  bankId: z.string(),
 });
