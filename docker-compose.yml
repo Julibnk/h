@@ -4,7 +4,6 @@ services:
     build:
       context: ./api
       target: api-dev
-    # env_file: ./api/.env
     environment:
       - POSTGRES_HOST=db
 
@@ -28,7 +27,7 @@ services:
       - ./api/prisma/client:/usr/src/app/prisma/client # Mounts prisma generated types to local
       - /usr/src/app/node_modules # Ensures node_modules persist inside the container
     ports:
-      - "4512:4512" # Expose the Fastify app on localhost:3000
+      - "4513:4512" # Expose the Fastify app on localhost:3000
     depends_on:
       - db
     entrypoint:
@@ -40,10 +39,10 @@ services:
     env_file: ./data/.env
     image: postgres:latest # Use the PostgreSQL version you prefer
     ports:
-      - "5432:5432" # Expose the Fastify app on localhost:3000
+      - "5433:5432"
 
     volumes:
-      - postgres_data:/var/lib/postgresql/data # Persist database data
+      - h_db:/var/lib/postgresql/data # Persist database data
 
 volumes:
-  postgres_data:
+  h_db:
